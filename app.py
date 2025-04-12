@@ -59,7 +59,7 @@ def predict():
     user_scaled = scaler.transform(user_df)
 
     user_prob = model.predict_proba(user_scaled)[0][1]
-    user_score = round(user_prob * 100, 2)  # convert to percent
+    user_score = round(user_prob * 100, 2)
     risk = risk_category(user_prob)
 
     return render_template('result.html',
