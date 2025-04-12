@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+  <title>Diabetes Risk Predictor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <div class="form-container">
+    <h1>Diabetes Risk Predictor</h1>
+    <form action="/predict" method="POST">
+
+      <label for="HighBP">High Blood Pressure</label>
+      <select name="HighBP" required>
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+      </select>
+
+      <label for="HighChol">High Cholesterol</label>
+      <select name="HighChol" required>
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+      </select>
+
+      <label for="BMI">BMI Range</label>
+      <select name="BMI" required>
+        <option value="22">Normal (18.5-24.9)</option>
+        <option value="27">Overweight (25-29.9)</option>
+        <option value="32">Obese (30-34.9)</option>
+        <option value="38">Very Obese (35+)</option>
+      </select>
+
+      <label for="HeartDiseaseorAttack">Heart Disease or Heart Attack</label>
+      <select name="HeartDiseaseorAttack" required>
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+      </select>
+
+      <label for="PhysActivity">Physically Active</label>
+      <select name="PhysActivity" required>
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+      </select>
+
+      <label for="GenHlth">General Health</label>
+      <select name="GenHlth" required>
+        <option value="1">Excellent</option>
+        <option value="2">Very Good</option>
+        <option value="3">Good</option>
+        <option value="4">Fair</option>
+        <option value="5">Poor</option>
+      </select>
+
+      <label for="PhysHlth">Days of poor physical health in the past month</label>
+      <select name="PhysHlth" required>
+        {% for i in range(0, 31) %}
+          <option value="{{ i }}">{{ i }}</option>
+        {% endfor %}
+      </select>
+
+      <label for="DiffWalk">Difficulty Walking</label>
+      <select name="DiffWalk" required>
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+      </select>
+
+      <label for="Sex">Sex</label>
+      <select name="Sex" required>
+        <option value="0">Female</option>
+        <option value="1">Male</option>
+      </select>
+
+      <label for="Age">Age Group</label>
+      <select name="Age" required>
+        <option value="1">18-24</option>
+        <option value="2">25-29</option>
+        <option value="3">30-34</option>
+        <option value="4">35-39</option>
+        <option value="5">40-44</option>
+        <option value="6">45-49</option>
+        <option value="7">50-54</option>
+        <option value="8">55-59</option>
+        <option value="9">60-64</option>
+        <option value="10">65-69</option>
+        <option value="11">70-74</option>
+        <option value="12">75+</option>
+      </select>
+
+      <button type="submit">Check My Risk</button>
+    </form>
+  </div>
+
+</body>
+</html>

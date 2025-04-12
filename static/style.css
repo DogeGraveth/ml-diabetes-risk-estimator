@@ -1,0 +1,130 @@
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to right, #eef2f3, #dbe9f4);
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    animation: fadeIn 1.5s ease-out both;
+  }
+
+.form-container {
+  background: white;
+  padding: 10px 50px;
+  border-radius: 50px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  width: 1000px;
+  margin: 10px auto 0 auto;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+select, button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.result-container {
+    text-align: center;
+    padding: 40px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 60px auto;
+    animation: fadeIn 1s ease-out both;
+  }
+  
+  .result-container h1 {
+    font-size: 32px;
+    margin-bottom: 30px;
+    color: #333;
+  }
+  
+  .result-container .score,
+  .result-container .level {
+    font-size: 24px;
+    margin: 15px 0;
+    font-weight: bold;
+  }
+  
+  .result-container .score span,
+  .result-container .level span {
+    font-size: 28px;
+    color: #007bff;
+  }
+  
+  .result-container .level.high-risk span {
+    color: #dc3545;
+  }
+  
+  .result-container .level.moderate-risk span {
+    color: #ffc107;
+  }
+  
+  .result-container .level.low-risk span {
+    color: #17a2b8;
+  }
+  
+  .result-container .level.unlikely span {
+    color: #28a745;
+  }
+  
+  .result-container a {
+    display: inline-block;
+    margin-top: 30px;
+    font-size: 16px;
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  
+  .result-container a:hover {
+    color: #0056b3;
+  }
+
+.risk-level.high-risk {
+    color: #dc3545;
+    font-weight: bold;
+  }
+  .risk-level.moderate-risk {
+    color: #ffc107;
+  }
+  .risk-level.low-risk {
+    color: #17a2b8;
+  }
+  .risk-level.unlikely {
+    color: #28a745;
+  }
+  

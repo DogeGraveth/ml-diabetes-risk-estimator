@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Diabetes Risk Result</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="result-container">
+    <h1>Your Risk Evaluation</h1>
+    <p class="score">Diabetes Risk Score: <span>{{ risk_score }}</span></p>
+    <p class="level {{ risk_level|lower|replace(' ', '-') }}">Risk Level: <span>{{ risk_level }}</span></p>
+    <a href="/">← Back to form</a>
+  </div>
+</body>
+</html>
