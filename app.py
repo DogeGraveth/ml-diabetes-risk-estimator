@@ -1,24 +1,37 @@
-import os
-import requests
 import pandas as pd
 import joblib
 from flask import Flask, render_template, request
-
-MODEL_ID = "16EgMUR1VtTFclaEzp7srK1Aycg00lwYY"
-MODEL_PATH = "model.pkl"
-
-if not os.path.exists(MODEL_PATH):
-    print("Downloading model from Google Drive...")
-    url = f"https://drive.google.com/uc?export=download&id={MODEL_ID}"
-    response = requests.get(url)
-    with open(MODEL_PATH, "wb") as f:
-        f.write(response.content)
-    print("Model downloaded successfully.")
-
-model, scaler = joblib.load(MODEL_PATH)
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import StandardScaler
 
 app = Flask(__name__)
 
+df = pd.read_csv('diabetes_dataset.csv')
+df = df[df['Diabetes_012'] != 1]
+df = df.rename(columns={'Diabetes_012': 'diabetes'})
+
+selected_cols = [
+    'HighBP', 'HighChol', 'BMI', 'HeartDiseaseorAttack', 'PhysActivity',
+    'GenHlth', 'PhysHlth', 'DiffWalk', 'Sex', 'Age', 'diabetes'
+]
+df = df[selected_cols]
+
+X = df.drop('diabetes', axis=1)
+y = df['diabetes']
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, stratify=y, random_state=42
+)
+
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+model = RandomForestClassifier(n_estimators=200, class_weight='balanced', random_state=42)
+model.fit(X_train, y_train)
+
+# === Risk categorization ===
 def risk_category(prob):
     if prob >= 0.30:
         return "High Risk"
