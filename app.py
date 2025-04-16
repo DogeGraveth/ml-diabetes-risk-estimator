@@ -1,24 +1,23 @@
+import os
+import requests
 import pandas as pd
 import joblib
-import requests
-import os
 from flask import Flask, render_template, request
-from sklearn.preprocessing import StandardScaler
 
-app = Flask(__name__)
-
-MODEL_URL = "https://drive.google.com/uc?export=download&id=1dJ91tXtengUXBdHyB0miCIDwaunyQibH"
-
+MODEL_ID = "16EgMUR1VtTFclaEzp7srK1Aycg00lwYY"
 MODEL_PATH = "model.pkl"
 
 if not os.path.exists(MODEL_PATH):
     print("Downloading model from Google Drive...")
-    response = requests.get(MODEL_URL)
+    url = f"https://drive.google.com/uc?export=download&id={MODEL_ID}"
+    response = requests.get(url)
     with open(MODEL_PATH, "wb") as f:
         f.write(response.content)
     print("Model downloaded successfully.")
 
 model, scaler = joblib.load(MODEL_PATH)
+
+app = Flask(__name__)
 
 def risk_category(prob):
     if prob >= 0.30:
