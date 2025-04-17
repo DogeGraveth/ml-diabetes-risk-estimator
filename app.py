@@ -1,10 +1,19 @@
 import pandas as pd
 import joblib
+import gdown
+import os
 from flask import Flask, render_template, request
 
-model, scaler = joblib.load('model.pkl')
-
 app = Flask(__name__)
+
+MODEL_PATH = "model.pkl"
+
+if not os.path.exists(MODEL_PATH):
+    print("Downloading model from Google Drive...")
+    gdown.download(id="1c1QGOCH2n69KQ1bhLxrbWCpmdo6lvtbO", output=MODEL_PATH, quiet=False)
+    print("Model downloaded successfully.")
+
+model, scaler = joblib.load(MODEL_PATH)
 
 def risk_category(prob):
     if prob >= 0.30:

@@ -4,7 +4,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler
 
-# Load and prepare data
 df = pd.read_csv('diabetes_dataset.csv')
 df = df[df['Diabetes_012'] != 1]
 df = df.rename(columns={'Diabetes_012': 'diabetes'})
