@@ -8,13 +8,7 @@ from sklearn.preprocessing import StandardScaler
 MODEL_PATH = "model.pkl"
 
 if not os.path.exists(MODEL_PATH):
-    print("Downloading model from Google Drive...")
-    gdown.download(
-        url="https://drive.google.com/uc?id=1c1QGOCH2n69KQ1bhLxrbWCpmdo6lvtbO",
-        output=MODEL_PATH,
-        quiet=False
-    )
-    print("Model downloaded successfully.")
+    gdown.download(id="1xP8CBWx3nm_WMKqxf12EjN6m7NmBocz_", output=MODEL_PATH, quiet=False)
 
 model, scaler = joblib.load(MODEL_PATH)
 

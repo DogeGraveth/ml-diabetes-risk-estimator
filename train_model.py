@@ -22,7 +22,7 @@ X_train, _, y_train, _ = train_test_split(X, y, stratify=y, random_state=42)
 scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
 
-model = RandomForestClassifier(n_estimators=200, class_weight='balanced', random_state=42)
+model = RandomForestClassifier(n_estimators=50, class_weight='balanced', random_state=42)
 model.fit(X_train, y_train)
 
 joblib.dump((model, scaler), 'model.pkl')
