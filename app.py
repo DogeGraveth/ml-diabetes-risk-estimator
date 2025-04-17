@@ -1,13 +1,15 @@
-import os
 import gdown
-import joblib
+import os
 import pandas as pd
+import joblib
 from flask import Flask, render_template, request
-from sklearn.preprocessing import StandardScaler
+
+app = Flask(__name__)
 
 MODEL_PATH = "model.pkl"
 
 if not os.path.exists(MODEL_PATH):
+    print("Downloading model from Google Drive...")
     file_id = "1f5gzLIEyDVPrza2teRy7j58-9PSH4uMt"
     gdown.download(id=file_id, output=MODEL_PATH, quiet=False)
 
