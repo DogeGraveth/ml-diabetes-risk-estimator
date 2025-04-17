@@ -1,60 +1,69 @@
-import gdown
-import os
-import pandas as pd
-import joblib
 from flask import Flask, render_template, request
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import classification_report, confusion_matrix
+
 
 app = Flask(__name__)
 
-MODEL_PATH = "model.pkl"
+df = pd.read_csv('diabetes_dataset.csv')
 
-if not os.path.exists(MODEL_PATH):
-    print("Downloading model from Google Drive...")
-    file_id = "1f5gzLIEyDVPrza2teRy7j58-9PSH4uMt"
-    gdown.download(id=file_id, output=MODEL_PATH, quiet=False)
+df = df[df['Diabetes_012'] != 1]
+df = df.rename(columns={'Diabetes_012': 'diabetes'})
 
-model, scaler = joblib.load(MODEL_PATH)
+selected_cols = [
+    'HighBP', 'HighChol', 'BMI', 'HeartDiseaseorAttack', 'PhysActivity',
+    'GenHlth', 'PhysHlth', 'DiffWalk', 'Sex', 'Age', 'diabetes'
+]
+df = df[selected_cols]
 
+X = df.drop('diabetes', axis=1)
+y = df['diabetes']
 
-def risk_category(prob):
-    if prob >= 0.30:
-        return "High Risk"
-    elif prob >= 0.20:
-        return "Moderate Risk"
-    elif prob >= 0.15:
-        return "Low Risk"
-    else:
-        return "Unlikely"
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, stratify=y, random_state=42
+)
+
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+model = RandomForestClassifier(n_estimators=300, max_depth=15, random_state=42)
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+print("\n=== Classification Report ===")
+print(classification_report(y_test, y_pred))
+print("=== Confusion Matrix ===")
+print(confusion_matrix(y_test, y_pred))
+
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
+def risk_category(prob):
+    if prob >= 0.20:
+        return "High Risk"
+    elif prob >= 0.10:
+        return "Moderate Risk"
+    elif prob >= 0.5:
+        return "Low Risk"
+    else:
+        return "Unlikely"
+
 @app.route('/predict', methods=['POST'])
 def predict():
-    user_data = {
-        'HighBP': int(request.form['HighBP']),
-        'HighChol': int(request.form['HighChol']),
-        'BMI': float(request.form['BMI']),
-        'HeartDiseaseorAttack': int(request.form['HeartDiseaseorAttack']),
-        'PhysActivity': int(request.form['PhysActivity']),
-        'GenHlth': int(request.form['GenHlth']),
-        'PhysHlth': int(request.form['PhysHlth']),
-        'DiffWalk': int(request.form['DiffWalk']),
-        'Sex': int(request.form['Sex']),
-        'Age': int(request.form['Age']),
-    }
-
+    user_data = {key: float(request.form[key]) for key in request.form}
     user_df = pd.DataFrame([user_data])
-    user_scaled = scaler.transform(user_df)
 
+    user_scaled = scaler.transform(user_df)
     user_prob = model.predict_proba(user_scaled)[0][1]
-    user_score = round(user_prob * 100, 2)
     risk = risk_category(user_prob)
 
-    return render_template('result.html',
-                           risk_score=user_score,
-                           risk_level=risk)
+    return render_template('result.html', risk_score=f"{user_prob:.2f}", risk_level=risk)
 
 if __name__ == '__main__':
     app.run(debug=True)
