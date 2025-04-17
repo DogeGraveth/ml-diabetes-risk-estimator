@@ -8,7 +8,8 @@ from sklearn.preprocessing import StandardScaler
 MODEL_PATH = "model.pkl"
 
 if not os.path.exists(MODEL_PATH):
-    gdown.download(id="1xP8CBWx3nm_WMKqxf12EjN6m7NmBocz_", output=MODEL_PATH, quiet=False)
+    file_id = "1f5gzLIEyDVPrza2teRy7j58-9PSH4uMt"
+    gdown.download(id=file_id, output=MODEL_PATH, quiet=False)
 
 model, scaler = joblib.load(MODEL_PATH)
 
