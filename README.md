@@ -2,7 +2,7 @@
 
 A machine learning web app that predicts a user's risk of contracting diabetes based on health data they input. The risk prediction is powered by a machine learning model trained on a dataset of over 250,000+ patient records.
 
-**Live Demo:** [(link)](https://ml-diabetes-risk-estimator.onrender.com/)
+**Link to Project:** https://ml-diabetes-risk-estimator.onrender.com/
 
 
 ## How It's Made:
